@@ -19,3 +19,20 @@ def timed(func):
         elapsed = stop - start
         return elapsed, result
     return wrapper
+
+def avgtime(repetitions=10):
+    """
+    Use to run a function [repetitions] times and return the average time it took to run
+    Returns only the time
+    """
+    def dec(func):
+        def wrapper(*args, **kwargs):
+            values = []
+            for repetition in range(repetitions):
+                start = perf_counter()
+                func(*args, **kwargs)
+                stop = perf_counter()
+                values.append(stop-start)
+            return sum(values)/len(values)
+        return wrapper
+    return dec
